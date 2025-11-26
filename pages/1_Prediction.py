@@ -36,19 +36,23 @@ age_group = st.selectbox("Age group", [
     "45-54",
     "55-64",
     "65+"
-])
+], key="age")
 
-sex = st.radio("Sex", ["Male", "Female"])
-health_insurance = st.radio("Health insurance", ["Yes", "No"])
-health_worker = st.radio("Healthcare worker", ["Yes", "No"])
+sex = st.radio("Sex", ["Male", "Female"], key="sex")
+
+health_insurance = st.radio("Health insurance", ["Yes", "No"], key="ins")
+
+health_worker = st.radio("Healthcare worker", ["Yes", "No"], key="hw")
+
 education = st.selectbox("Education", [
     "Unknown",
     "< 12 Years",
     "12 Years",
     "Some College",
     "College Graduate"
-])
+], key="edu")
 
+# Encode shared data
 age_encoded = ["18-34", "35-44", "45-54", "55-64", "65+"].index(age_group) + 1
 education_encoded = ["Unknown","< 12 Years","12 Years","Some College","College Graduate"].index(education)
 sex_Male = True if sex == "Male" else False
@@ -60,23 +64,26 @@ health_worker = 1.0 if health_worker == "Yes" else 0.0
 #############################################
 st.header("🧪 H1N1 Vaccine Prediction")
 
-doctor_recc_h1n1 = st.radio("Doctor recommendation", ["Yes", "No"])
+doctor_recc_h1n1 = st.radio("Doctor recommendation", ["Yes", "No"], key="dr_h1")
 doctor_recc_h1n1 = 1.0 if doctor_recc_h1n1 == "Yes" else 0.0
 
 op_h1n1_effective = st.selectbox(
     "Opinion: H1N1 vaccine effectiveness",
     ["Not at all effective", "Not very effective", "Don't know",
-     "Somewhat effective", "Very effective"]
+     "Somewhat effective", "Very effective"],
+    key="eff_h1"
 )
 op_h1n1_risk = st.selectbox(
     "Opinion: risk of flu if unvaccinated (H1N1)",
     ["Very low", "Somewhat low", "Don't know",
-     "Somewhat high", "Very high"]
+     "Somewhat high", "Very high"],
+    key="risk_h1"
 )
 op_h1n1_sick = st.selectbox(
     "Worried about getting sick *from* the H1N1 vaccine",
     ["Not at all worried", "Not very worried", "Don't know",
-     "Somewhat worried", "Very worried"]
+     "Somewhat worried", "Very worried"],
+    key="sick_h1"
 )
 
 h1n1_input = np.array([[doctor_recc_h1n1,
@@ -89,7 +96,7 @@ h1n1_input = np.array([[doctor_recc_h1n1,
                         health_worker,
                         education_encoded]])
 
-if st.button("Predict H1N1 Vaccine Uptake"):
+if st.button("Predict H1N1 Vaccine Uptake", key="pred_h1"):
     prob = h1n1_model.predict_proba(h1n1_input)[0][1]
     st.success(f"Probability of receiving H1N1 vaccine: {prob:.2%}")
     st.progress(float(prob))
@@ -99,23 +106,26 @@ if st.button("Predict H1N1 Vaccine Uptake"):
 #############################################
 st.header("💉 Seasonal Flu Vaccine Prediction")
 
-doctor_recc_seasonal = st.radio("Doctor recommendation", ["Yes", "No"])
+doctor_recc_seasonal = st.radio("Doctor recommendation", ["Yes", "No"], key="dr_seas")
 doctor_recc_seasonal = 1.0 if doctor_recc_seasonal == "Yes" else 0.0
 
 op_seas_effective = st.selectbox(
     "Opinion: Seasonal vaccine effectiveness",
     ["Not at all effective", "Not very effective", "Don't know",
-     "Somewhat effective", "Very effective"]
+     "Somewhat effective", "Very effective"],
+    key="eff_seas"
 )
 op_seas_risk = st.selectbox(
     "Opinion: risk of flu if unvaccinated (Seasonal)",
     ["Very low", "Somewhat low", "Don't know",
-     "Somewhat high", "Very high"]
+     "Somewhat high", "Very high"],
+    key="risk_seas"
 )
 op_seas_sick = st.selectbox(
     "Worried about getting sick *from* the Seasonal vaccine",
     ["Not at all worried", "Not very worried", "Don't know",
-     "Somewhat worried", "Very worried"]
+     "Somewhat worried", "Very worried"],
+    key="sick_seas"
 )
 
 seasonal_input = np.array([[doctor_recc_seasonal,
@@ -127,7 +137,7 @@ seasonal_input = np.array([[doctor_recc_seasonal,
                             health_worker,
                             education_encoded]])
 
-if st.button("Predict Seasonal Vaccine Uptake"):
+if st.button("Predict Seasonal Vaccine Uptake", key="pred_seas"):
     prob = seasonal_model.predict_proba(seasonal_input)[0][1]
     st.success(f"Probability of receiving Seasonal flu vaccine: {prob:.2%}")
     st.progress(float(prob))
