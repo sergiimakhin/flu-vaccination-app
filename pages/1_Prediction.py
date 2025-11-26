@@ -18,6 +18,7 @@ def encode5(x):
     }
     return mapping.get(x, 3)
 
+
 #############################################
 # LOAD MODELS
 #############################################
@@ -53,23 +54,18 @@ defaults = {
     "sick_seas": "Don't know",
 }
 
-#############################################
-# INITIALIZE SESSION VALUES
-#############################################
-for key, value in defaults.items():
-    if key not in st.session_state:
-        st.session_state[key] = value
 
 #############################################
-# RESET
+# RESET BUTTON – WORKS NOW!
 #############################################
-if st.button("RESET", key="reset"):
+if st.button("RESET"):
     for k, v in defaults.items():
         st.session_state[k] = v
+    st.rerun()
 
 
 #############################################
-# UI TITLE
+# TITLE
 #############################################
 st.write("## Vaccine Uptake Prediction")
 
@@ -85,15 +81,15 @@ left, spacer, right = st.columns([1.5, 0.3, 1.5])
 with left:
     st.write("### H1N1")
 
-    st.session_state.sex_h1 = st.radio("Sex", ["Male", "Female"], key="sex_h1")
-    st.session_state.age_h1 = st.selectbox("Age", ["18-34","35-44","45-54","55-64","65+"], key="age_h1")
-    st.session_state.edu_h1 = st.selectbox("Education", ["Unknown","< 12 Years","12 Years","Some College","College Graduate"], key="edu_h1")
-    st.session_state.ins_h1 = st.radio("Health insurance", ["Yes", "No"], key="ins_h1")
-    st.session_state.hw_h1 = st.radio("Health worker", ["Yes", "No"], key="hw_h1")
-    st.session_state.dr_h1 = st.radio("Doctor recommendation", ["Yes", "No"], key="dr_h1")
-    st.session_state.eff_h1 = st.selectbox("Perceived effectiveness", ["Not at all effective","Not very effective","Don't know","Somewhat effective","Very effective"], key="eff_h1")
-    st.session_state.risk_h1 = st.selectbox("Risk if unvaccinated", ["Very low","Somewhat low","Don't know","Somewhat high","Very high"], key="risk_h1")
-    st.session_state.sick_h1 = st.selectbox("Worried about side effects", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_h1")
+    st.radio("Sex", ["Male", "Female"], key="sex_h1")
+    st.selectbox("Age", ["18-34","35-44","45-54","55-64","65+"], key="age_h1")
+    st.selectbox("Education", ["Unknown","< 12 Years","12 Years","Some College","College Graduate"], key="edu_h1")
+    st.radio("Health insurance", ["Yes", "No"], key="ins_h1")
+    st.radio("Health worker", ["Yes", "No"], key="hw_h1")
+    st.radio("Doctor recommendation", ["Yes", "No"], key="dr_h1")
+    st.selectbox("Perceived effectiveness", ["Not at all effective","Not very effective","Don't know","Somewhat effective","Very effective"], key="eff_h1")
+    st.selectbox("Risk if unvaccinated", ["Very low","Somewhat low","Don't know","Somewhat high","Very high"], key="risk_h1")
+    st.selectbox("Worried about side effects", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_h1")
 
     if st.button("Predict H1N1"):
         doctor_recc_h1n1 = 1.0 if st.session_state.dr_h1 == "Yes" else 0.0
@@ -130,15 +126,15 @@ with spacer:
 with right:
     st.write("### Seasonal")
 
-    st.session_state.sex_seas = st.radio("Sex", ["Male", "Female"], key="sex_seas")  # ignored
-    st.session_state.age_seas = st.selectbox("Age", ["18-34","35-44","45-54","55-64","65+"], key="age_seas")
-    st.session_state.edu_seas = st.selectbox("Education", ["Unknown","< 12 Years","12 Years","Some College","College Graduate"], key="edu_seas")
-    st.session_state.ins_seas = st.radio("Health insurance", ["Yes", "No"], key="ins_seas")
-    st.session_state.hw_seas = st.radio("Health worker", ["Yes", "No"], key="hw_seas")
-    st.session_state.dr_seas = st.radio("Doctor recommendation", ["Yes", "No"], key="dr_seas")
-    st.session_state.eff_seas = st.selectbox("Perceived effectiveness", ["Not at all effective","Not very effective","Don't know","Somewhat effective","Very effective"], key="eff_seas")
-    st.session_state.risk_seas = st.selectbox("Risk if unvaccinated", ["Very low","Somewhat low","Don't know","Somewhat high","Very high"], key="risk_seas")
-    st.session_state.sick_seas = st.selectbox("Worried about side effects", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_seas")
+    st.radio("Sex", ["Male", "Female"], key="sex_seas")  # fake
+    st.selectbox("Age", ["18-34","35-44","45-54","55-64","65+"], key="age_seas")
+    st.selectbox("Education", ["Unknown","< 12 Years","12 Years","Some College","College Graduate"], key="edu_seas")
+    st.radio("Health insurance", ["Yes", "No"], key="ins_seas")
+    st.radio("Health worker", ["Yes", "No"], key="hw_seas")
+    st.radio("Doctor recommendation", ["Yes", "No"], key="dr_seas")
+    st.selectbox("Perceived effectiveness", ["Not at all effective","Not very effective","Don't know","Somewhat effective","Very effective"], key="eff_seas")
+    st.selectbox("Risk if unvaccinated", ["Very low","Somewhat low","Don't know","Somewhat high","Very high"], key="risk_seas")
+    st.selectbox("Worried about side effects", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_seas")
 
     if st.button("Predict Seasonal"):
         doctor_recc_seas = 1.0 if st.session_state.dr_seas == "Yes" else 0.0
