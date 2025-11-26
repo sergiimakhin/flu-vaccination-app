@@ -34,9 +34,9 @@ encode5 = lambda x: {
 }.get(x, 3)
 
 #############################################
-# TWO SIDE-BY-SIDE MODEL PANELS
+# THREE COLUMNS: left panel + empty space + right panel
 #############################################
-left, right = st.columns([1.15, 1])   # left panel wider
+left, spacer, right = st.columns([1.15, 0.35, 1])   
 
 ################################################
 # LEFT PANEL — H1N1 MODEL
@@ -111,6 +111,14 @@ with left:
         prob = h1n1_model.predict_proba(h1n1_input)[0][1]
         st.success(f"H1N1 vaccine probability: {prob:.2%}")
         st.progress(float(prob))
+
+
+################################################
+# MIDDLE COLUMN = EMPTY BLANK SPACE
+################################################
+with spacer:
+    st.write("")   # intentionally left blank
+    st.write("")   # extra spacing control
 
 
 ################################################
