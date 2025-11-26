@@ -86,7 +86,7 @@ st.markdown(
 #############################################
 # 3-COLUMN LAYOUT → SAME BASELINE
 #############################################
-left, spacer, right = st.columns([1.5, 0.3, 1.5], vertical_alignment="start")
+left, spacer, right = st.columns([1.5, 0.3, 1.5])
 
 
 #############################################################
