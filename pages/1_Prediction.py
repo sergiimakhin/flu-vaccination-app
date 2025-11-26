@@ -81,14 +81,20 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
 #############################################
-# RESET BUTTON
+# RESET BUTTON (clears widget state keys)
 #############################################
 if st.button("RESET", key="reset", help="Clear all inputs"):
-    st.session_state.clear()
-    st.rerun()
-
+    keys_to_clear = [
+        "sex_h1", "age_h1", "edu_h1", "ins_h1", "hw_h1", "dr_h1",
+        "eff_h1", "risk_h1", "sick_h1",
+        "sex_seas", "age_seas", "edu_seas", "ins_seas", "hw_seas",
+        "dr_seas", "eff_seas", "risk_seas", "sick_seas",
+        "pred_h1", "pred_seas",
+    ]
+    for k in keys_to_clear:
+        if k in st.session_state:
+            del st.session_state[k]
 
 #############################################
 # 3-COLUMN LAYOUT
@@ -169,7 +175,7 @@ with right:
     st.subheader("Seasonal Model")
 
     st.markdown("<div class='block-panel'><span class='question-label'>Sex</span></div>", unsafe_allow_html=True)
-    sex_fake = st.radio("", ["Male", "Female"], key="sex_seas")
+    sex_fake = st.radio("", ["Male", "Female"], key="sex_seas")  # ignored
 
     st.markdown("<div class='block-panel'><span class='question-label'>Age group</span></div>", unsafe_allow_html=True)
     age_seas = st.selectbox("", ["18-34","35-44","45-54","55-64","65+"], key="age_seas")
