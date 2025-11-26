@@ -69,15 +69,6 @@ html, body, div, p, span, label {
     margin-bottom:10px;
 }
 
-.reset-btn {
-    background-color:#8AC6D6;
-    color:#000000;
-    font-weight:600;
-    border-radius:12px;
-    padding:8px 16px;
-    border:1px solid #58ADC5;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -95,9 +86,8 @@ st.markdown(
 # RESET BUTTON
 #############################################
 if st.button("RESET", key="reset", help="Clear all inputs"):
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-    st.experimental_rerun()
+    st.session_state.clear()
+    st.rerun()
 
 
 #############################################
