@@ -72,7 +72,6 @@ html, body, div, p, span, label {
 </style>
 """, unsafe_allow_html=True)
 
-
 #############################################
 # TITLE
 #############################################
@@ -82,25 +81,20 @@ st.markdown(
 )
 
 #############################################
-# RESET BUTTON (clears widget state keys)
+# RESET BUTTON – CLEAR + RERUN
 #############################################
 if st.button("RESET", key="reset", help="Clear all inputs"):
-    keys_to_clear = [
-        "sex_h1", "age_h1", "edu_h1", "ins_h1", "hw_h1", "dr_h1",
-        "eff_h1", "risk_h1", "sick_h1",
-        "sex_seas", "age_seas", "edu_seas", "ins_seas", "hw_seas",
-        "dr_seas", "eff_seas", "risk_seas", "sick_seas",
-        "pred_h1", "pred_seas",
-    ]
-    for k in keys_to_clear:
-        if k in st.session_state:
-            del st.session_state[k]
+    st.session_state.clear()
+    # robust across Streamlit versions
+    if hasattr(st, "rerun"):
+        st.rerun()
+    else:
+        st.experimental_rerun()
 
 #############################################
 # 3-COLUMN LAYOUT
 #############################################
 left, spacer, right = st.columns([1.5, 0.3, 1.5])
-
 
 #############################################################
 # LEFT PANEL — H1N1
@@ -159,13 +153,11 @@ with left:
         prob = h1n1_model.predict_proba(h1n1_input)[0][1]
         st.markdown(f"<div class='result-box'>Probability: {prob:.2%}</div>", unsafe_allow_html=True)
 
-
 #############################################################
 # SPACER
 #############################################################
 with spacer:
     st.write("")
-
 
 #############################################################
 # RIGHT PANEL — SEASONAL
