@@ -42,7 +42,7 @@ hr {
 }
 
 .feature-box {
-    background-color:#CDE6EE;
+    background-color:#58ADC5;
     padding:8px;
     border-radius:5px;
     margin-bottom:6px;
