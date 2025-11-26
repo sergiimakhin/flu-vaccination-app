@@ -28,16 +28,17 @@ with open("seasonal_model.pkl", "rb") as f:
     seasonal_model = pickle.load(f)
 
 #############################################
-# STYLE
+# LOAD FONT + STYLE
 #############################################
 st.markdown("""
 <style>
-html, body, div, p, span {
-    font-family: 'Nunito', 'Segoe UI', sans-serif !important;
-    letter-spacing: 0.02rem;
-}
 
-body { background-color:#FFFFFF; color:#000000; }
+@import url('https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&display=swap');
+
+html, body, div, p, span, label {
+    font-family: 'Assistant', sans-serif !important;
+    font-weight:400;
+}
 
 .block-panel {
     background-color:#CDE6EE;
@@ -65,10 +66,16 @@ body { background-color:#FFFFFF; color:#000000; }
 .top-border {
     border-top:3px solid #8AC6D6;
     padding-top:10px;
+    margin-bottom:10px;
 }
 
-button[kind="secondary"] {
-    border-radius:12px !important;
+.reset-btn {
+    background-color:#8AC6D6;
+    color:#000000;
+    font-weight:600;
+    border-radius:12px;
+    padding:8px 16px;
+    border:1px solid #58ADC5;
 }
 
 </style>
@@ -83,8 +90,18 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+
 #############################################
-# 3-COLUMN LAYOUT → SAME BASELINE
+# RESET BUTTON
+#############################################
+if st.button("RESET", key="reset", help="Clear all inputs"):
+    for key in list(st.session_state.keys()):
+        del st.session_state[key]
+    st.experimental_rerun()
+
+
+#############################################
+# 3-COLUMN LAYOUT
 #############################################
 left, spacer, right = st.columns([1.5, 0.3, 1.5])
 
@@ -123,7 +140,7 @@ with left:
     st.markdown("<div class='block-panel'><span class='question-label'>Worried about getting sick from vaccine</span></div>", unsafe_allow_html=True)
     op_h1n1_sick = st.selectbox("", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_h1")
 
-    # ENCODE
+    # ENCODE INPUT
     doctor_recc_h1n1 = 1.0 if doctor_recc_h1n1 == "Yes" else 0.0
     health_insurance_h1 = 1.0 if health_insurance_h1 == "Yes" else 0.0
     health_worker_h1 = 1.0 if health_worker_h1 == "Yes" else 0.0
@@ -148,7 +165,7 @@ with left:
 
 
 #############################################################
-# MIDDLE SPACER
+# SPACER
 #############################################################
 with spacer:
     st.write("")
