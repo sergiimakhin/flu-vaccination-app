@@ -32,35 +32,45 @@ with open("seasonal_model.pkl", "rb") as f:
 #############################################
 st.markdown("""
 <style>
-body { background-color:#FFFFFF; color:#000000; }
-
-hr {
-    border: 0;
-    height: 1px;
-    background: #8AC6D6;
-    margin: 8px 0;
+html, body, div, p, span {
+    font-family: 'Nunito', 'Segoe UI', sans-serif !important;
+    letter-spacing: 0.02rem;
 }
 
-.feature-box {
-    background-color:#58ADC5;
+body { background-color:#FFFFFF; color:#000000; }
+
+.block-panel {
+    background-color:#CDE6EE;
     padding:8px;
-    border-radius:5px;
-    margin-bottom:6px;
+    border-radius:12px;
+    margin-bottom:8px;
 }
 
 .question-label {
     font-weight:600;
-    font-size:14px;
+    font-size:15px;
 }
 
 .result-box {
     background-color:#F08C66;
     color:#000000;
-    padding:10px;
-    border-radius:6px;
-    font-size:16px;
-    font-weight:600;
+    padding:14px;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:700;
+    margin-top:10px;
+    border: 1px solid #EA5B25;
 }
+
+.top-border {
+    border-top:3px solid #8AC6D6;
+    padding-top:10px;
+}
+
+button[kind="secondary"] {
+    border-radius:12px !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -68,57 +78,52 @@ hr {
 #############################################
 # TITLE
 #############################################
-st.markdown("<h1 style='text-align:center; margin-bottom:1rem;'>VACCINE UPTAKE PREDICTION</h1>", unsafe_allow_html=True)
-
+st.markdown(
+    "<h1 style='text-align:center; margin-bottom:1rem;'>Vaccine Uptake Prediction</h1>",
+    unsafe_allow_html=True,
+)
 
 #############################################
-# 3 COLUMNS LAYOUT
+# 3-COLUMN LAYOUT → SAME BASELINE
 #############################################
-left, spacer, right = st.columns([1.5, 0.3, 1.5])
+left, spacer, right = st.columns([1.5, 0.3, 1.5], vertical_alignment="start")
 
-########################################################
-# LEFT PANEL — H1N1 MODEL
-########################################################
+
+#############################################################
+# LEFT PANEL — H1N1
+#############################################################
 with left:
+    st.markdown("<div class='top-border'></div>", unsafe_allow_html=True)
     st.subheader("H1N1 Model")
 
-    # SEX
-    st.markdown("<div class='feature-box'><span class='question-label'>Sex</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Sex</span></div>", unsafe_allow_html=True)
     sex_h1 = st.radio("", ["Male", "Female"], key="sex_h1")
 
-    # AGE
-    st.markdown("<div class='feature-box'><span class='question-label'>Age group</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Age group</span></div>", unsafe_allow_html=True)
     age_h1 = st.selectbox("", ["18-34","35-44","45-54","55-64","65+"], key="age_h1")
 
-    # EDUCATION
-    st.markdown("<div class='feature-box'><span class='question-label'>Education</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Education</span></div>", unsafe_allow_html=True)
     education_h1 = st.selectbox("", ["Unknown","< 12 Years","12 Years","Some College","College Graduate"], key="edu_h1")
 
-    # HEALTH INSURANCE
-    st.markdown("<div class='feature-box'><span class='question-label'>Health insurance</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Health insurance</span></div>", unsafe_allow_html=True)
     health_insurance_h1 = st.radio("", ["Yes", "No"], key="ins_h1")
 
-    # HEALTH WORKER
-    st.markdown("<div class='feature-box'><span class='question-label'>Health worker</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Health worker</span></div>", unsafe_allow_html=True)
     health_worker_h1 = st.radio("", ["Yes", "No"], key="hw_h1")
 
-    # DOCTOR RECOMMENDATION
-    st.markdown("<div class='feature-box'><span class='question-label'>Doctor recommendation</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Doctor recommendation</span></div>", unsafe_allow_html=True)
     doctor_recc_h1n1 = st.radio("", ["Yes", "No"], key="dr_h1")
 
-    # VACCINE EFFECTIVENESS
-    st.markdown("<div class='feature-box'><span class='question-label'>Vaccine perceived effectiveness</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Vaccine perceived effectiveness</span></div>", unsafe_allow_html=True)
     op_h1n1_effective = st.selectbox("", ["Not at all effective","Not very effective","Don't know","Somewhat effective","Very effective"], key="eff_h1")
 
-    # RISK
-    st.markdown("<div class='feature-box'><span class='question-label'>Risk if unvaccinated</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Risk if unvaccinated</span></div>", unsafe_allow_html=True)
     op_h1n1_risk = st.selectbox("", ["Very low","Somewhat low","Don't know","Somewhat high","Very high"], key="risk_h1")
 
-    # WORRY
-    st.markdown("<div class='feature-box'><span class='question-label'>Worried about getting sick from vaccine</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Worried about getting sick from vaccine</span></div>", unsafe_allow_html=True)
     op_h1n1_sick = st.selectbox("", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_h1")
 
-    # ENCODE INPUT
+    # ENCODE
     doctor_recc_h1n1 = 1.0 if doctor_recc_h1n1 == "Yes" else 0.0
     health_insurance_h1 = 1.0 if health_insurance_h1 == "Yes" else 0.0
     health_worker_h1 = 1.0 if health_worker_h1 == "Yes" else 0.0
@@ -142,56 +147,48 @@ with left:
         st.markdown(f"<div class='result-box'>Probability: {prob:.2%}</div>", unsafe_allow_html=True)
 
 
-########################################################
+#############################################################
 # MIDDLE SPACER
-########################################################
+#############################################################
 with spacer:
     st.write("")
 
 
-########################################################
-# RIGHT PANEL — SEASONAL MODEL
-########################################################
+#############################################################
+# RIGHT PANEL — SEASONAL
+#############################################################
 with right:
+    st.markdown("<div class='top-border'></div>", unsafe_allow_html=True)
     st.subheader("Seasonal Model")
 
-    # SEX (ignored)
-    st.markdown("<div class='feature-box'><span class='question-label'>Sex</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Sex</span></div>", unsafe_allow_html=True)
     sex_fake = st.radio("", ["Male", "Female"], key="sex_seas")
 
-    # AGE
-    st.markdown("<div class='feature-box'><span class='question-label'>Age group</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Age group</span></div>", unsafe_allow_html=True)
     age_seas = st.selectbox("", ["18-34","35-44","45-54","55-64","65+"], key="age_seas")
 
-    # EDUCATION
-    st.markdown("<div class='feature-box'><span class='question-label'>Education</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Education</span></div>", unsafe_allow_html=True)
     education_seas = st.selectbox("", ["Unknown","< 12 Years","12 Years","Some College","College Graduate"], key="edu_seas")
 
-    # HEALTH INSURANCE
-    st.markdown("<div class='feature-box'><span class='question-label'>Health insurance</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Health insurance</span></div>", unsafe_allow_html=True)
     health_insurance_seas = st.radio("", ["Yes", "No"], key="ins_seas")
 
-    # HEALTH WORKER
-    st.markdown("<div class='feature-box'><span class='question-label'>Health worker</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Health worker</span></div>", unsafe_allow_html=True)
     health_worker_seas = st.radio("", ["Yes", "No"], key="hw_seas")
 
-    # DOCTOR RECOMMENDATION
-    st.markdown("<div class='feature-box'><span class='question-label'>Doctor recommendation</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Doctor recommendation</span></div>", unsafe_allow_html=True)
     doctor_recc_seas = st.radio("", ["Yes", "No"], key="dr_seas")
 
-    # EFFECTIVENESS
-    st.markdown("<div class='feature-box'><span class='question-label'>Vaccine perceived effectiveness</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Vaccine perceived effectiveness</span></div>", unsafe_allow_html=True)
     op_seas_effective = st.selectbox("", ["Not at all effective","Not very effective","Don't know","Somewhat effective","Very effective"], key="eff_seas")
 
-    # RISK
-    st.markdown("<div class='feature-box'><span class='question-label'>Risk if unvaccinated</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Risk if unvaccinated</span></div>", unsafe_allow_html=True)
     op_seas_risk = st.selectbox("", ["Very low","Somewhat low","Don't know","Somewhat high","Very high"], key="risk_seas")
 
-    # WORRY
-    st.markdown("<div class='feature-box'><span class='question-label'>Worried about getting sick from vaccine</span></div>", unsafe_allow_html=True)
+    st.markdown("<div class='block-panel'><span class='question-label'>Worried about getting sick from vaccine</span></div>", unsafe_allow_html=True)
     op_seas_sick = st.selectbox("", ["Not at all worried","Not very worried","Don't know","Somewhat worried","Very worried"], key="sick_seas")
 
-    # ENCODE INPUT
+    # ENCODE
     doctor_recc_seas = 1.0 if doctor_recc_seas == "Yes" else 0.0
     health_insurance_seas = 1.0 if health_insurance_seas == "Yes" else 0.0
     health_worker_seas = 1.0 if health_worker_seas == "Yes" else 0.0
