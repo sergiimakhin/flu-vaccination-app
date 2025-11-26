@@ -9,7 +9,15 @@ with open("h1n1_model.pkl", "rb") as f:
 with open("seasonal_model.pkl", "rb") as f:
     seasonal_model = pickle.load(f)
 
-st.title("🧪 Vaccine Uptake Prediction")
+st.title("Vaccine Uptake Prediction")
+
+# STYLE — adds spacing and separators
+st.markdown("""
+<style>
+.block {padding-top: 8px; padding-bottom: 8px;}
+.sep {border-bottom: 1px solid #999; margin-bottom: 12px;}
+</style>
+""", unsafe_allow_html=True)
 
 #############################################
 # FUNCTIONS
@@ -23,61 +31,63 @@ encode5 = lambda x: {
 
     "Not at all worried":1, "Not very worried":2, "Don't know":3,
     "Somewhat worried":4, "Very worried":5
-}.get(x, 3)  # fallback = Don't know
+}.get(x, 3)
 
 #############################################
 # TWO SIDE-BY-SIDE MODEL PANELS
 #############################################
-left, right = st.columns(2)
+left, right = st.columns([1.15, 1])   # left panel wider
 
 ################################################
 # LEFT PANEL — H1N1 MODEL
 ################################################
 with left:
-    st.header("🧪 H1N1 Prediction")
+    st.subheader("H1N1 Model")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     sex_h1 = st.radio("Sex", ["Male", "Female"], key="sex_h1")
+    
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     age_h1 = st.selectbox("Age group", [
-        "18-34",
-        "35-44",
-        "45-54",
-        "55-64",
-        "65+"
+        "18-34", "35-44", "45-54", "55-64", "65+"
     ], key="age_h1")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     education_h1 = st.selectbox("Education", [
-        "Unknown",
-        "< 12 Years",
-        "12 Years",
-        "Some College",
-        "College Graduate"
+        "Unknown", "< 12 Years", "12 Years", "Some College", "College Graduate"
     ], key="edu_h1")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     health_insurance_h1 = st.radio("Health insurance", ["Yes", "No"], key="ins_h1")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     health_worker_h1 = st.radio("Healthcare worker", ["Yes", "No"], key="hw_h1")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     doctor_recc_h1n1 = st.radio("Doctor recommendation", ["Yes", "No"], key="dr_h1")
+
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     op_h1n1_effective = st.selectbox(
         "Opinion: vaccine effectiveness",
         ["Not at all effective", "Not very effective", "Don't know",
-         "Somewhat effective", "Very effective"],
-        key="eff_h1"
+         "Somewhat effective", "Very effective"], key="eff_h1"
     )
+
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     op_h1n1_risk = st.selectbox(
         "Opinion: risk if unvaccinated",
         ["Very low", "Somewhat low", "Don't know",
-         "Somewhat high", "Very high"],
-        key="risk_h1"
-    )
-    op_h1n1_sick = st.selectbox(
-        "Worried about getting sick *from* the vaccine",
-        ["Not at all worried", "Not very worried", "Don't know",
-         "Somewhat worried", "Very worried"],
-        key="sick_h1"
+         "Somewhat high", "Very high"], key="risk_h1"
     )
 
-    # ENCODE FOR H1N1 MODEL
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
+    op_h1n1_sick = st.selectbox(
+        "Worried about getting sick from the vaccine",
+        ["Not at all worried", "Not very worried", "Don't know",
+         "Somewhat worried", "Very worried"], key="sick_h1"
+    )
+
+    # ENCODE
     doctor_recc_h1n1 = 1.0 if doctor_recc_h1n1 == "Yes" else 0.0
     health_insurance_h1 = 1.0 if health_insurance_h1 == "Yes" else 0.0
     health_worker_h1 = 1.0 if health_worker_h1 == "Yes" else 0.0
@@ -96,6 +106,7 @@ with left:
                             health_worker_h1,
                             education_encoded_h1]])
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     if st.button("Predict H1N1", key="pred_h1"):
         prob = h1n1_model.predict_proba(h1n1_input)[0][1]
         st.success(f"H1N1 vaccine probability: {prob:.2%}")
@@ -106,52 +117,52 @@ with left:
 # RIGHT PANEL — SEASONAL MODEL
 ################################################
 with right:
-    st.header("💉 Seasonal Prediction")
+    st.subheader("Seasonal Model")
 
-    # includes fake sex input (ignored)
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     sex_fake = st.radio("Sex", ["Male", "Female"], key="sex_seas")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     age_seas = st.selectbox("Age group", [
-        "18-34",
-        "35-44",
-        "45-54",
-        "55-64",
-        "65+"
+        "18-34", "35-44", "45-54", "55-64", "65+"
     ], key="age_seas")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     education_seas = st.selectbox("Education", [
-        "Unknown",
-        "< 12 Years",
-        "12 Years",
-        "Some College",
-        "College Graduate"
+        "Unknown", "< 12 Years", "12 Years", "Some College", "College Graduate"
     ], key="edu_seas")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     health_insurance_seas = st.radio("Health insurance", ["Yes", "No"], key="ins_seas")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     health_worker_seas = st.radio("Healthcare worker", ["Yes", "No"], key="hw_seas")
 
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     doctor_recc_seas = st.radio("Doctor recommendation", ["Yes", "No"], key="dr_seas")
+
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     op_seas_effective = st.selectbox(
         "Opinion: vaccine effectiveness",
         ["Not at all effective", "Not very effective", "Don't know",
-         "Somewhat effective", "Very effective"],
-        key="eff_seas"
+         "Somewhat effective", "Very effective"], key="eff_seas"
     )
+
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     op_seas_risk = st.selectbox(
         "Opinion: risk if unvaccinated",
         ["Very low", "Somewhat low", "Don't know",
-         "Somewhat high", "Very high"],
-        key="risk_seas"
-    )
-    op_seas_sick = st.selectbox(
-        "Worried about getting sick *from* the vaccine",
-        ["Not at all worried", "Not very worried", "Don't know",
-         "Somewhat worried", "Very worried"],
-        key="sick_seas"
+         "Somewhat high", "Very high"], key="risk_seas"
     )
 
-    # ENCODE FOR SEASONAL MODEL
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
+    op_seas_sick = st.selectbox(
+        "Worried about getting sick from the vaccine",
+        ["Not at all worried", "Not very worried", "Don't know",
+         "Somewhat worried", "Very worried"], key="sick_seas"
+    )
+
+    # Encode
     doctor_recc_seas = 1.0 if doctor_recc_seas == "Yes" else 0.0
     health_insurance_seas = 1.0 if health_insurance_seas == "Yes" else 0.0
     health_worker_seas = 1.0 if health_worker_seas == "Yes" else 0.0
@@ -168,8 +179,7 @@ with right:
                                 health_worker_seas,
                                 education_encoded_seas]])
 
-    # Note: sex_fake is ignored intentionally
-
+    st.markdown("<div class='sep'></div>", unsafe_allow_html=True)
     if st.button("Predict Seasonal", key="pred_seas"):
         prob = seasonal_model.predict_proba(seasonal_input)[0][1]
         st.success(f"Seasonal vaccine probability: {prob:.2%}")
