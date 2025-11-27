@@ -49,7 +49,7 @@ html, body, div, p, span, label {
 
 .question-label {
     font-weight:600;
-    font-size:16px;
+    font-size:18px;
 }
 
 .result-box {
