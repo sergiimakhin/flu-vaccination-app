@@ -49,7 +49,7 @@ html, body, div, p, span, label {
 
 .question-label {
     font-weight:600;
-    font-size:15px;
+    font-size:16px;
 }
 
 .result-box {
@@ -57,7 +57,7 @@ html, body, div, p, span, label {
     color:#000000;
     padding:14px;
     border-radius:12px;
-    font-size:18px;
+    font-size:20px;
     font-weight:700;
     margin-top:10px;
     border: 1px solid #EA5B25;
