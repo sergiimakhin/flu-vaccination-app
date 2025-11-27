@@ -41,7 +41,7 @@ html, body, div, p, span, label {
 }
 
 .block-panel {
-    background-color:#CDE6EE;
+    background-color:#58ADC5;
     padding:8px;
     border-radius:12px;
     margin-bottom:8px;
